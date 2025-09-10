@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 // Создаем упрощенные тесты, которые проверяют логику без Redis зависимостей
-describe('useCache - Unit Tests', () => {
+describe('useCache', () => {
   describe('Типы данных', () => {
     it('должен корректно работать с типом CacheEntry', () => {
       const cacheEntry = {

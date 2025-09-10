@@ -253,7 +253,10 @@ export const useRenderCache = (options: IRenderCacheOptions) => {
       )
 
       const backupCacheEntry = await cache.get(cacheKey)
-      const newCacheEntry = await cache.waitForCache(cacheKey, backupCacheEntry)
+      const newCacheEntry = await cache.waitForCache(
+        cacheKey,
+        backupCacheEntry,
+      )
       if (newCacheEntry) {
         return newCacheEntry.data
       }
