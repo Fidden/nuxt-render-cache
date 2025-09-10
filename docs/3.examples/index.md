@@ -366,6 +366,135 @@ export const useCacheManager = () => {
 };
 ```
 
+## Распределенное кеширование
+
+### Синхронизация между серверами
+
+```vue [components/DistributedContent.vue]
+<template>
+  <div>
+    <!-- Контент, кешируемый распределенно -->
+    <CacheRender
+      cache-key="distributed:content:global"
+      :hard-ttl="1800"
+      :soft-ttl="600"
+      :cache-tags="['distributed', 'global', 'content']"
+    >
+      <GlobalContent />
+    </CacheRender>
+
+    <!-- Региональный контент -->
+    <CacheRender
+      :cache-key="`regional:content:${region}`"
+      :hard-ttl="3600"
+      :soft-ttl="1800"
+      :cache-tags="['distributed', 'regional', region]"
+    >
+      <RegionalContent :region="region" />
+    </CacheRender>
+  </div>
+</template>
+
+<script setup>
+const region = ref('us-east-1');
+
+// Автоматическая синхронизация через Redis Pub/Sub
+onMounted(async () => {
+  // Серверы автоматически синхронизируют кеш
+  // при изменениях данных
+});
+</script>
+```
+
+### Redis кластер
+
+```typescript [config/redis-cluster.ts]
+// Конфигурация для Redis кластера
+export const redisClusterConfig = {
+  host: process.env.REDIS_CLUSTER_HOST,
+  ports: [6379, 6380, 6381], // Порты кластера
+  password: process.env.REDIS_PASSWORD,
+
+  // Настройки кластера
+  cluster: {
+    enableOfflineQueue: false,
+    redisOptions: {
+      password: process.env.REDIS_PASSWORD,
+    },
+  },
+};
+```
+
+## API интеграция
+
+### REST API кеширование
+
+```vue [components/ApiData.vue]
+<template>
+  <div>
+    <!-- Кеширование API ответов -->
+    <CacheRender
+      cache-key="api:users:list"
+      :hard-ttl="300"
+      :soft-ttl="60"
+      :cache-tags="['api', 'users']"
+    >
+      <UserList :users="users" />
+    </CacheRender>
+
+    <!-- Кеширование с параметрами -->
+    <CacheRender
+      :cache-key="`api:products:category:${category}`"
+      :hard-ttl="600"
+      :soft-ttl="120"
+      :cache-tags="['api', 'products', category]"
+    >
+      <ProductList :products="products" />
+    </CacheRender>
+  </div>
+</template>
+
+<script setup>
+const users = await $fetch('/api/users');
+const products = await $fetch(`/api/products?category=${category}`);
+</script>
+```
+
+### GraphQL кеширование
+
+```typescript [composables/useGraphqlCache.ts]
+import { useRenderCache } from 'nuxt-render-cache';
+
+export const useGraphqlCache = () => {
+  const graphqlCache = (query: string, variables: any = {}) => {
+    const cacheKey = `graphql:${hash(query)}:${hash(variables)}`;
+
+    return useRenderCache({
+      cacheKey,
+      hardTtl: 300,
+      softTtl: 60,
+      cacheTags: ['graphql', 'api'],
+    });
+  };
+
+  const executeQuery = async (query: string, variables: any = {}) => {
+    const cache = graphqlCache(query, variables);
+
+    // Выполнение GraphQL запроса только при необходимости
+    const result = await $fetch('/api/graphql', {
+      method: 'POST',
+      body: { query, variables },
+    });
+
+    return result;
+  };
+
+  return {
+    executeQuery,
+  };
+};
+```
+
 ## Реальные сценарии использования
 
 ### Электронная коммерция

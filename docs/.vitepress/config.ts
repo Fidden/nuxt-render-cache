@@ -1,5 +1,48 @@
-import { defineConfig } from 'vitepress';
-import ru from './locales/ru';
+import { defineConfig } from 'vitepress'
+
+// Объект с переводами на русский язык
+const ru = {
+  // Навигация
+  'nav.home': 'Главная',
+  'nav.documentation': 'Документация',
+  'nav.installation': 'Установка',
+  'nav.components': 'Компоненты',
+  'nav.composables': 'Composables',
+  'nav.api': 'API',
+  'nav.architecture': 'Архитектура',
+  'nav.examples': 'Примеры',
+
+  // Боковое меню
+  'sidebar.getting-started': 'Начало работы',
+  'sidebar.essentials': 'Основы',
+  'sidebar.examples': 'Примеры',
+
+  // Заголовки документов
+  'docs.installation.title': 'Установка и настройка',
+  'docs.components.title': 'Компоненты',
+  'docs.composables.title': 'Composables',
+  'docs.api.title': 'API',
+  'docs.architecture.title': 'Архитектура',
+
+  // Сообщения
+  'message.footer-message': 'Создано с ❤️ для Nuxt сообщества',
+  'message.footer-copyright': '© 2024 Nuxt Render Cache',
+  'message.no-results': 'Результаты не найдены',
+  'message.on-this-page': 'На этой странице',
+  'message.last-updated': 'Последнее обновление',
+  'message.previous-page': 'Предыдущая страница',
+  'message.next-page': 'Следующая страница',
+
+  // Кнопки
+  'button.search': 'Поиск',
+  'button.edit-page': 'Редактировать страницу',
+  'button.return-to-top': 'Наверх',
+
+  // Сайт
+  'site.title': 'Nuxt Render Cache',
+  'description.home':
+    'Мощная библиотека для кеширования рендеринга компонентов в Nuxt 3 приложениях',
+}
 
 export default defineConfig({
   title: 'Nuxt Render Cache',
@@ -285,4 +328,4 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://nuxt-render-cache.dev',
   },
-});
+})
