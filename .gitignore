@@ -57,3 +57,4 @@ docker-compose.test.yml
 Network Trash Folder
 Temporary Items
 .apdisk
+.vitepress/cache

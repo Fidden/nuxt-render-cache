@@ -1,12 +1,10 @@
 {
-  "name": "docus-starter",
   "scripts": {
-    "dev": "nuxt dev --extends docus",
-    "build": "nuxt build --extends docus"
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
-  "dependencies": {
-    "docus": "latest",
-    "better-sqlite3": "^12.2.0",
-    "nuxt": "^4.1.0"
+  "devDependencies": {
+    "vitepress": "2.0.0-alpha.12"
   }
 }

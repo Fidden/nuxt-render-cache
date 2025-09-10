@@ -652,4 +652,4 @@ export const usePerformanceMonitor = () => {
 4. **Graceful degradation** - обеспечивайте работу без кеша при сбоях
 5. **Автоматическая инвалидация** - очищайте кеш при изменениях данных
 
-Для более сложных сценариев изучите разделы [Архитектура](/essentials/architecture) и [API](/essentials/api).
+Для более сложных сценариев изучите разделы [Архитектура](/2.essentials/4.architecture) и [API](/2.essentials/3.api).
